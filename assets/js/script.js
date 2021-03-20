@@ -63,30 +63,37 @@ function getCharacterPool(finalCharPool, charClassesArray) {
 
 
 function getNumPasswordChars(){
-  var numChars = NaN;
+  var numChars = null;
   var promptString = `Please enter the number of password characters. \n` + 
                     `(between ${MIN_PASSWORD_CHARS} and ${MAX_PASSWORD_CHARS})`;
+  var keepLooping = true;
 
+do  {  // loop until we get good data
+  numChars = prompt(promptString);
+    // check if the user has cancelled out. Return early from the function
+    if (numChars === null){
+      return null;
+    } 
 
-  // loop while trying get a valid number from the user
-  numChars = parseInt(prompt(promptString)); //
-  while ((numChars < MIN_PASSWORD_CHARS) || (MAX_PASSWORD_CHARS > 128)){
-    alert(`Number of characters must be between ${MIN_PASSWORD_CHARS} and ${MAX_PASSWORD_CHARS}.`);
-    numChars = parseInt(prompt('Please enter the number of password characters')); // update prompt string
+    numChars = parseInt(numChars); // try for numbers
+    if (isNaN(numChars)) {  // user entereda string; bad user
+      alert('You must enter a number.\n')
+    } else if ((numChars < MIN_PASSWORD_CHARS) || (numChars > MAX_PASSWORD_CHARS)){
+      alert(`Number of characters must be between ${MIN_PASSWORD_CHARS} and ${MAX_PASSWORD_CHARS}.`);
+    } else {
+      keepLooping = false; // we have good data
     }
-  
-  // numChars  
+
+  } while (keepLooping); // keep looping until we get good data
+
   return numChars;
 }
-
-// 
-
 
 // generate password 
 function generatePassword(){
 
   var numChars = getNumPasswordChars();
-  if (isNaN(numChars)){
+  if (numChars === null){
      // user pressed cancel on the prompt and getNumPasswordChars return NaN
      //   --> bail out of this function and return empty string
     return '';
@@ -119,6 +126,9 @@ function writePassword() {
   var password = generatePassword();
   var passwordText = document.querySelector("#password");
   passwordText.value = password;
+
+  // select text to highlight spaces and allow simple copy paste
+  passwordText.select();
 }
 
 // Add event listener to generate button
