@@ -1,5 +1,7 @@
 # Password Generator site.
 
+[link to password generator site](https://macoovacany.github.io/passwordGenerator/)
+
 ## Context
 
 This site is the homework assignment for the week 3 of the full-stack flex program. The aim of this home work is to write javascript code to generate a password. The user is given options of the number of characters in the password (between 8 and 128), and what kind of characters (upper case, lower case, digits and special characters) are to appear in the password.
